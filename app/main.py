@@ -7,6 +7,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+
 def get_db():
     db = SessionLocal()
     try:
@@ -14,9 +15,11 @@ def get_db():
     finally:
         db.close()
 
+
 @app.post("/wallet/")
 def create_wallet(request: schemas.WalletRequestCreate, db: Session = Depends(get_db)):
     return crud.create_wallet_request(db=db, request=request)
+
 
 @app.get("/wallet/", response_model=list[schemas.WalletRequest])
 def read_wallets(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
